@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+    <title>Image Board</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Bioluminescence</h1>
+</header>
+
+            <div id='main'>
+                <!-- <div id ="overlay"></div> -->
+                <div class="section">
+                <form class ='inputContainer'>
+                    <input v-model='title' type="text" name="title" placeholder="Title">
+                    <input v-model='description' type="text" name="description" placeholder="Description">
+                    <input v-model='username' type="text" name="user" placeholder="Username">
+                    <input  class='fileInput' @change='handleChange' type="file" name="" value="file" accept='image/*'>
+                    <button @click='handleClick'>Submit</button>
+                </form>
+                </div>
+
+                <div class='imageContainer'>
+                    <div
+                        class="pictures" v-for="img in imgs">
+                        <img
+                        :src="img.url"
+                        :alt = "img.title"
+                        @click='showModalMethod(img.id)'>
+                        <p> {{ img.title }} </p>
+
+                    </div>
+                </div>
+
+
+
+
+                <div class='modalWrapper'>
+                <image-modal
+                 v-if='showModal'
+
+                :image-id='imageId'
+                v-on:close='closeModalOnParent'
+                ></image-modal>
+                </div>
+
+
+                <div class= 'footer'>
+                <button   class='getMoreButton' @click='clickMore'><p class='getmore'>Get more!</p></button>
+                </div>
+            </div>
+
+                <!-- our script tag mus be outside of main COMPONENT MODAL -->
+            <script id='image-modal-template', type='text/x-template'>
+                <!-- all of the HTML for our component will be put in this div! -->
+
+                <div class='modalBox'>
+                    <div class='modalPopUp'>
+                        <h3 @click='closeModal'> x </h3>
+                        <img
+                        :src="image.url"
+                        :alt = "image.title"
+                        @click='showModalMethod(image.id)'>
+                        <form>
+                            <input v-model='comment' type="text" name="comment" placeholder="Comments" >
+                            <input v-model='username' type="text" name="user" placeholder="Username">
+                            <button @click='handleClick'>Submit</button>
+                        </form>
+                        <div class="comments" v-for="comment in comments" >
+                       <h3>{{comment.comment}}</h3>
+                       <h3>{{comment.username}}</h3>
+                       <h4>{{comment.created_at}} </h4>
+                       </div>
+                            // <!-- add the handleClick on the axios get in method!!  -->
+
+                    </div>
+            </div>
+            </script>
+
+    <footer>
+    </footer>
+
+
+
+    <script src="/js/vue.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src ="/js/script.js"></script>
+
+
+</body>
+</html>
